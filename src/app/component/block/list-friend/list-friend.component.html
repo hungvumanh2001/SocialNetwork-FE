@@ -1,0 +1,141 @@
+<!-- Card Connections START -->
+<div class="card" xmlns="http://www.w3.org/1999/html">
+  <!-- Card header START -->
+  <div class="card-header border-0 pb-0">
+    <!-- Tabs START -->
+    <ul class="nav nav-tabs nav-justified mb-3" id="pills-tab" role="tablist" *ngIf="user.id==currentId || relationship.status==2">
+      <li class="nav-item" role="presentation" *ngIf="user.id==currentId || user.id == id" >
+        <button class="nav-link active" id="pills-tab-1" data-bs-toggle="pill" data-bs-target="#pills-tab1"
+                type="button" role="tab" aria-controls="pills-tab1" aria-selected="true">Bạn bè <span
+          class="badge bg-success bg-opacity-10 text-success small"> {{listFriend.length}}</span>
+        </button>
+      </li>
+      <!-- Tab item -->
+      <li class="nav-item" role="presentation" *ngIf="user.id != currentId">
+        <button class="nav-link" id="pills-tab-2" data-bs-toggle="pill" data-bs-target="#pills-tab2" type="button"
+                role="tab" aria-controls="pills-tab2" aria-selected="false">Bạn bè chung <span
+          class="badge bg-success bg-opacity-10 text-success small"> {{listMutualFriend.length}}</span>
+        </button>
+      </li>
+    </ul>
+    <!-- Tabs contents -->
+    <div class="tab-content" id="pills-tabContent" style="padding-bottom: 0; margin-bottom: 0; padding-top: 0">
+      <!-- Content -->
+      <div class="tab-pane fade show active" id="pills-tab1" role="tabpanel" aria-labelledby="pills-tab-1">
+        <div *ngIf="user.id == currentId || relationship.status == 2">
+          <div>
+            <div class="card-body" *ngFor="let item of listFriend">
+              <!-- Connections Item -->
+              <div *ngIf="id == item.user1.id">
+                <div class="d-md-flex align-items-center mb-4" routerLink="/{{item.user2.id}}">
+                  <!-- Avatar -->
+                  <div class="avatar me-3 mb-3 mb-md-0">
+                    <a> <img class="avatar-img rounded-circle" src="{{item.user2.avatar}}" alt=""> </a>
+                  </div>
+                  <!-- Info -->
+                  <div class="w-100">
+                    <div class="d-sm-flex align-items-start">
+                      <h6 class="mb-0">{{item.user2.fullname}}</h6>
+                      <p class="small ms-sm-2 mb-0">{{item.user2.address}}</p>
+                    </div>
+                    <!-- Connections START -->
+<!--                    <ul class="avatar-group mt-1 list-unstyled align-items-sm-center">-->
+<!--                      <li class="small">-->
+<!--                        Bryan Knight and Billy Vasquez shared connections-->
+<!--                      </li>-->
+<!--                    </ul>-->
+                    <!-- Connections END -->
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="id == item.user2.id">
+                <div class="d-md-flex align-items-center mb-4" routerLink="/{{item.user1.id}}">
+                  <!-- Avatar -->
+                  <div class="avatar me-3 mb-3 mb-md-0">
+                    <a routerLink="/{{item.user1.id}}"> <img class="avatar-img rounded-circle" src="{{item.user1.avatar}}" alt=""> </a>
+                  </div>
+                  <!-- Info -->
+                  <div class="w-100">
+                    <div class="d-sm-flex align-items-start">
+                      <h6 class="mb-0"><a>{{item.user1.fullname}}</a></h6>
+                      <p class="small ms-sm-2 mb-0">{{item.user1.address}}</p>
+                    </div>
+                    <!-- Connections START -->
+<!--                    <ul class="avatar-group mt-1 list-unstyled align-items-sm-center">-->
+<!--                      <li class="small">-->
+<!--                        Bryan Knight and Billy Vasquez shared connections-->
+<!--                      </li>-->
+<!--                    </ul>-->
+                    <!-- Connections END -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Card body END -->
+          </div>
+        </div>
+      </div>
+      <!-- Content -->
+      <div class="tab-pane fade" id="pills-tab2" role="tabpanel" aria-labelledby="pills-tab-2">
+        <div *ngIf="user.id == id || relationship.status == 2">
+          <div>
+            <div class="card-body" *ngFor="let item of listMutualFriend">
+              <!-- Connections Item -->
+              <div *ngIf="id == item.user1.id">
+                <div class="d-md-flex align-items-center mb-4"c>
+                  <!-- Avatar -->
+                  <div class="avatar me-3 mb-3 mb-md-0">
+                    <a routerLink="/{{item.user2.id}}"> <img class="avatar-img rounded-circle" src="{{item.user2.avatar}}" alt=""> </a>
+                  </div>
+                  <!-- Info -->
+                  <div class="w-100">
+                    <div class="d-sm-flex align-items-start">
+                      <h6 class="mb-0">{{item.user2.fullname}}</h6>
+                      <p class="small ms-sm-2 mb-0">{{item.user2.address}}</p>
+                    </div>
+                    <!-- Connections START -->
+<!--                    <ul class="avatar-group mt-1 list-unstyled align-items-sm-center">-->
+<!--                      <li class="small">-->
+<!--                        Bryan Knight and Billy Vasquez shared connections-->
+<!--                      </li>-->
+<!--                    </ul>-->
+                    <!-- Connections END -->
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="id == item.user2.id">
+                <div class="d-md-flex align-items-center mb-4" routerLink="/{{item.user1.id}}">
+                  <!-- Avatar -->
+                  <div class="avatar me-3 mb-3 mb-md-0">
+                    <a> <img class="avatar-img rounded-circle" src="{{item.user1.avatar}}" alt=""> </a>
+                  </div>
+                  <!-- Info -->
+                  <div class="w-100">
+                    <div class="d-sm-flex align-items-start">
+                      <h6 class="mb-0"><a>{{item.user1.fullname}}</a></h6>
+                      <p class="small ms-sm-2 mb-0">{{item.user1.address}}</p>
+                    </div>
+                    <!-- Connections START -->
+<!--                    <ul class="avatar-group mt-1 list-unstyled align-items-sm-center">-->
+<!--                      <li class="small">-->
+<!--                        Bryan Knight and Billy Vasquez shared connections-->
+<!--                      </li>-->
+<!--                    </ul>-->
+                    <!-- Connections END -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Card body END -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Card header END -->
+  <!-- Card body START -->
+
+</div>
+<!-- Card Connections END -->

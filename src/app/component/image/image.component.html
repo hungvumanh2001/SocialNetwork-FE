@@ -1,0 +1,27 @@
+<!-- media START -->
+<div class="card">
+  <!-- Card header START -->
+  <div class="card-header d-sm-flex align-items-center justify-content-between border-0 pb-0">
+    <h5 class="card-title">Ảnh</h5>
+  </div>
+  <!-- Card header END -->
+  <!-- Card body START -->
+  <div class="card-body">
+    <!-- Photos of you tab START -->
+    <div class="row g-3">
+      <!-- Photo item START -->
+      <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let list of listImage">
+        <!-- Photo -->
+        <a href="assets/images/albums/01.jpg" data-gallery="image-popup"
+           data-glightbox="description: .custom-desc2; descPosition: left;">
+          <img style="width: 200px;height: 200px" class="rounded img-fluid" src="{{list.image}}"
+               *ngIf="(currentId == id && relationship == null) || ( relationship !=null && relationship.status ==2)">
+        </a>
+      </div>
+      <!-- Photo item END -->
+    </div>
+    <!-- Photos of you tab END -->
+  </div>
+  <!-- Card body END -->
+</div>
+<!-- media END -->

@@ -1,0 +1,180 @@
+<div class="container">
+  <div class="row g-4">
+
+    <!-- Main content START -->
+    <div class="col-lg-8 vstack gap-4">
+      <!-- My profile START -->
+      <div class="card">
+        <!-- Cover image -->
+        <div class="h-200px rounded-top"
+             style="background-image:url(assets/assets/images/bg/05.jpg); background-position: center; background-size: cover; background-repeat: no-repeat;"></div>
+        <!-- Card body START -->
+        <div class="card-body py-0">
+          <div class="d-sm-flex align-items-start text-center text-sm-start">
+            <div>
+              <!-- Avatar -->
+              <label for="avatar">
+                <div class="avatar avatar-xxl mt-n5 mb-3" type="button" data-bs-toggle="modal"
+                     data-bs-target="#modalAvatar" id="avatar-frame">
+                  <img class="avatar-img rounded-circle border border-white border-3" src="{{user.avatar}}"
+                       alt="">
+                </div>
+              </label>
+              <div *ngIf="currentId == id">
+                <input type="file" formControlName="avatar" (change)="onFileSelected($event)"
+                       accept="image/png, image/gif, image/jpeg" id="avatar">
+                <!--                <button (click)="updateAvatar(currentId)">Thay đổi</button>-->
+              </div>
+            </div>
+            <div class="ms-sm-4 mt-sm-3">
+              <!-- Info -->
+              <h1 class="mb-0 h5">{{user.fullname}} <i class="bi bi-patch-check-fill text-success small"></i></h1>
+              <p>{{user.username}}</p>
+            </div>
+            <!-- Button -->
+            <div class="d-flex mt-3 justify-content-center ms-sm-auto" *ngIf="user.id == currentId">
+              <button class="btn btn-danger-soft me-2" type="button" routerLink="/setting-user"><i
+                class="bi bi-pencil-fill pe-1"></i> Sửa thông tin
+              </button>
+            </div>
+            <div class="d-flex mt-3 justify-content-center ms-sm-auto" *ngIf="user.id != currentId">
+              <div class="d-flex mt-3 justify-content-center ms-sm-auto" *ngIf="relationship == null">
+                <button id="relationship" class="btn btn-primary-soft me-2" type="button" (click)="addFriend()"><i
+                  class="fa-solid fa-user-plus"></i> Kết bạn
+                </button>
+              </div>
+              <div class="d-flex mt-3 justify-content-center ms-sm-auto" *ngIf="relationship !== null">
+                <div *ngIf="relationship.status == 1">
+                  <div class="d-flex mt-3 justify-content-center ms-sm-auto"
+                       *ngIf="(relationship.user1.id == id) && (relationship.user2.id == currentId)">
+                    <button class="btn btn-success-soft me-2" type="button" (click)="friendConfirmation()"><i
+                      class="fa-solid fa-user-plus"></i> Chấp nhận lời mời
+                    </button>
+                    <button class="btn btn-danger-soft me-2" type="button" (click)="deleteRelationship()"><i
+                      class="fa-solid fa-user-minus"></i> Xóa lời mời
+                    </button>
+                  </div>
+
+                  <div class="d-flex mt-3 justify-content-center ms-sm-auto"
+                       *ngIf="(relationship.user1.id == currentId) && (relationship.user2.id == id)">
+                    <button class="btn btn-danger-soft me-2" type="button" (click)="deleteRelationship()"><i
+                      class="fa-solid fa-user-minus"></i> Hủy yêu cầu kết bạn
+                    </button>
+                  </div>
+                </div>
+                <div class="d-flex mt-3 justify-content-center ms-sm-auto" *ngIf="relationship.status == 2">
+                  <button class="btn btn-primary-soft me-2" type="button" data-bs-toggle="modal"
+                          data-bs-target="#modalUnfriend"><i class="fa-solid fa-user-check"></i> Bạn bè
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- List profile -->
+          <ul class="list-inline mb-0 text-center text-sm-start mt-3 mt-sm-0">
+            <li class="list-inline-item"><i class="bi bi-geo-alt me-1"></i> {{user.address}}</li>
+          </ul>
+        </div>
+        <!-- Card body END -->
+        <div class="card-footer mt-3 pt-2 pb-0">
+          <!-- Nav profile pages -->
+          <ul
+            class="nav nav-bottom-line align-items-center justify-content-center justify-content-md-start mb-0 border-0">
+            <li class="nav-item"><a class="nav-link" routerLink="/{{id}}"> Bài viết </a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="list-friend">Bạn bè </a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="list-image"> Ảnh</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Modal unfriend START -->
+      <div class="modal fade" id="modalUnfriend" tabindex="-1" aria-labelledby="modalLabelUnfriend" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <!-- Modal feed header START -->
+            <div class="modal-header">
+              <h3 id="modalLabelUnfriend" style="text-align: center">Bạn muốn hủy kết bạn</h3>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h6>Bạn có chắc chắn muốn hủy kết bạn với {{user.fullname}}</h6>
+            </div>
+            <!-- Button -->
+            <div class="modal-footer">
+              <div class="col-lg-8 text-sm-end">
+                <button type="button" class="btn btn-primary-soft me-2" (click)="deleteRelationship()"
+                        data-bs-dismiss="modal"> Xác nhận
+                </button>
+                <button type="button" class="btn btn-danger-soft" data-bs-dismiss="modal" aria-label="Close">Hủy
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal create feed END -->
+
+      <!-- My profile END -->
+      <router-outlet style="margin-top: -5%"></router-outlet>
+
+    </div>
+    <!-- Main content END -->
+
+    <!-- Right sidebar START -->
+    <div class="col-lg-4">
+      <div class="row g-4">
+        <!-- Card START -->
+        <div class="col-md-6 col-lg-12">
+          <div class="card">
+            <div class="card-header border-0 pb-0">
+              <h5 class="card-title">Giới thiệu</h5>
+              <!-- Button modal -->
+            </div>
+            <!-- Card body START -->
+            <div class="card-body position-relative pt-0">
+              <p>{{user.hobby}}</p>
+              <!-- Date time -->
+              <ul class="list-unstyled mt-3 mb-0">
+                <li class="mb-2"><i class="bi bi-calendar-date fa-fw pe-1"></i> Ngày sinh:
+                  <strong> {{user.birthday | date: "dd/MM/yyyy"}} </strong></li>
+                <li class="mb-2"><i class="fa-solid fa-phone"></i> Số điện thoại: <strong> {{user.phone}} </strong></li>
+                <li><i class="bi bi-envelope fa-fw pe-1"></i> Email: <strong> {{user.email}} </strong></li>
+              </ul>
+            </div>
+            <!-- Card body END -->
+          </div>
+        </div>
+        <!-- Card END -->
+
+        <!-- Card START -->
+        <div class="col-md-6 col-lg-12">
+          <div class="card">
+            <!-- Card header START -->
+            <div class="card-header d-sm-flex justify-content-between border-0">
+              <h5 class="card-title">Ảnh</h5>
+              <a class="btn btn-primary-soft btn-sm" routerLink="list-image"> Xem tất cả</a>
+            </div>
+            <!-- Card header END -->
+            <!-- Card body START -->
+            <div class="card-body position-relative pt-0">
+              <div class="row g-2">
+                <!-- Photos item -->
+                <div class="col-6" *ngFor="let image of listImage ">
+                  <a href="assets/assets/images/albums/01.jpg" data-gallery="image-popup" data-glightbox="">
+                    <img style="width: 150px;height: 150px" class="rounded img-fluid" src="{{image.image}}"
+                         *ngIf="(currentId == id && relationship == null) || ( relationship !=null && relationship.status ==2)">
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- Card body END -->
+          </div>
+        </div>
+        <!-- Card END -->
+      </div>
+
+    </div>
+    <!-- Right sidebar END -->
+
+  </div> <!-- Row END -->
+</div>

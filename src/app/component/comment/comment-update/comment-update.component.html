@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-12">
+    <form [formGroup]="commentForm" (keydown.enter)="editComment()">
+      <div class="font-group">
+        <input type="text" class="form-control" formControlName="content"
+               id="content" placeholder="content" ngModel="{{comment.content}}">
+      </div>
+    </form>
+  </div>
+  <div class="col-2"></div>
+</div>

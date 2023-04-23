@@ -1,0 +1,50 @@
+<!-- Container START -->
+<div class="container">
+  <div class="row justify-content-center align-items-center vh-100 py-5">
+    <!-- Main content START -->
+    <div class="col-sm-10 col-md-8 col-lg-7 col-xl-6 col-xxl-5">
+      <!-- Sign in START -->
+      <div class="card card-body text-center p-4 p-sm-5">
+        <!-- Title -->
+        <h1 class="mb-2">Đăng Nhập</h1>
+        <p class="mb-0">Bạn chưa có tài khoản?<a routerLink="/register"> Đăng ký</a></p>
+        <!-- Form START -->
+        <form class="mt-sm-4" [formGroup]="loginForm" (ngSubmit)="login()">
+          <!-- Email -->
+          <div class="mb-3 input-group-lg">
+            <input formControlName="username" type="email" class="form-control" placeholder="Nhập tên tài khoản">
+            <div *ngIf="!loginForm.controls.username?.valid && (loginForm.controls.username?.dirty || loginForm.controls.username?.touched)">
+              <div *ngIf="loginForm.controls.username?.errors?.required">
+<!--                username đúng định dạng-->
+              </div>
+
+              <div *ngIf="loginForm.controls.username?.errors?.pattern">
+                <div  style="color: red; float: left "  >Tên đăng nhập sai định dạng</div>
+              </div>
+
+            </div>
+          </div>
+          <!-- New password -->
+          <div class="mb-3 position-relative">
+            <!-- Password -->
+            <div class="input-group input-group-lg">
+              <input formControlName="password" class="form-control fakepassword" type="password" id="psw-input" placeholder="Nhập mật khẩu">
+            </div>
+            <!-- Pswmeter -->
+            <div id="pswmeter" class="mt-2"></div>
+          </div>
+          <!-- Remember me -->
+          <!-- Button -->
+          <div>  <div id="error" style="color: red; display: none"  >Tên đăng nhập không đúng</div></div>
+          <div>  <div id="error1" style="color: red; display: none"  >Mật khẩu nhập không đúng</div></div>
+          <div class="d-grid"><button type="submit"  class="btn btn-lg btn-primary"> Đăng nhập</button></div>
+          <!-- Copyright -->
+        </form>
+        <!-- Form END -->
+      </div>
+      <!-- Sign in START -->
+    </div>
+  </div> <!-- Row END -->
+</div>
+<!-- Container END -->
+

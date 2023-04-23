@@ -1,0 +1,255 @@
+<main>
+  <!-- Container START -->
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="card card-body">
+            <!-- Feed meta START -->
+            <div class="d-flex align-items-center justify-content-between my-3">
+              <div class="d-flex align-items-center">
+                <!-- Avatar -->
+                <div class="avatar avatar-story me-2">
+                  <a routerLink="/{{status.owner.id}}"> <img class="avatar-img rounded-circle" src="{{status.owner.avatar}}" alt=""> </a>
+                </div>
+                <!-- Info -->
+                <div>
+                  <div class="nav nav-divider">
+                    <h6 class="nav-item card-title mb-0"><a routerLink="/{{status.owner.id}}"> {{status.owner.fullname}} </a></h6>
+                    <span class="nav-item small"> {{status.createAt | date: "hh:mm dd/MM/yyyy"}}</span>
+                  </div>
+                  <p class="mb-0 small" *ngIf="status.status == 1"><i class="fa-solid fa-globe"></i> Công khai</p>
+                  <p class="mb-0 small" *ngIf="status.status == 2"><i class="fa-solid fa-lock"></i> Chỉ mình tôi</p>
+                  <p class="mb-0 small" *ngIf="status.status == 3"><i class="fa-solid fa-user-group"></i> Bạn bè</p>
+                </div>
+              </div>
+            </div>
+            <!-- Feed meta Info -->
+            <p>{{status.content}}  </p>
+
+            <div class="position-relative pt-0">
+              <div class="row g-2">
+                <div *ngFor="let img of listImage" class="col-4">
+                  <img class="rounded img-fluid" src="{{img.image}}">
+                </div>
+              </div>
+            </div>
+            <br>
+            <!-- Feed react START -->
+            <ul class="nav nav-pills nav-pills-light nav-fill nav-stack small border-top py-1">
+              <li class="nav-item" *ngIf="!status.isLiked">
+                <a class="nav-link mb-0" (click)="likeStatus(status.id)"> <i class="bi bi-heart pe-1"></i>Thích ({{numberOfLikeOfStatus}})</a>
+              </li>
+              <li class="nav-item" *ngIf="status.isLiked">
+                <a class="nav-link mb-0" style="color: red" (click)="likeStatus(status.id)"> <i class="bi bi-heart pe-1"></i>Thích ({{numberOfLikeOfStatus}})</a>
+              </li>
+            </ul>
+            <!-- Feed react START -->
+            <div
+              *ngIf="currentUserId == status.owner.id || (currentUserId != status.owner.id && relationship != null && relationship.status == 2)">
+              <app-comment-create [statusId]="statusId"></app-comment-create>
+            </div>
+            <!-- Comment wrap START -->
+            <ul class="comment-wrap list-unstyled">
+              <!-- Comment item START -->
+              <li class="comment-item" *ngFor="let commentOfStatus of listCommentOfStatus, index as i">
+                <div class="d-flex position-relative">
+                  <!-- Avatar -->
+                  <div class="avatar avatar-xs">
+                    <a routerLink="/{{commentOfStatus.userComment.id}}"><img class="avatar-img rounded-circle"
+                                                                             src="{{commentOfStatus.userComment.avatar}}"
+                                                                             alt=""></a>
+                  </div>
+                  <div class="ms-2">
+                    <!-- Comment by -->
+                    <div class="row" *ngIf="currentUserId == commentOfStatus.userComment.id">
+                      <div class="col-11">
+                        <div class="bg-light rounded-start-top-0 p-3 rounded">
+                          <div class="d-flex justify-content-between">
+                            <h6 class="mb-1"><a
+                              routerLink="/{{commentOfStatus.userComment.id}}"> {{commentOfStatus.userComment.fullname}} </a>
+                            </h6>
+                            <small class="ms-2">{{commentOfStatus.createAt | date: "hh:mm dd/MM/yyyy"}}</small>
+                          </div>
+                          <div>
+                            <p class="small mb-0 comment-content">{{commentOfStatus.content}}</p>
+                          </div>
+                          <div class="comment-update">
+                            <app-comment-update [id]="commentOfStatus.id"></app-comment-update>
+                            <small><a class="ms-2" (click)="cancel(i)">Hủy</a></small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-1">
+                        <a href="#" class="text-secondary btn btn-secondary-soft-hover py-1 px-2" id="commentAction"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="bi bi-three-dots"></i>
+                        </a>
+                        <!-- Card feed action dropdown menu -->
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="commentAction">
+                          <li><a class="dropdown-item" (click)="update(i)"> <i class="bi bi-pencil-fill pe-1"></i> Chỉnh
+                            sửa</a>
+                          </li>
+                          <li>
+                            <hr class="dropdown-divider">
+                          </li>
+                          <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalDeleteStatus"
+                                 (click)="getCommentId(commentOfStatus.id)"> <i class="fa-solid fa-trash"></i> Xóa</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="row" *ngIf="currentUserId != commentOfStatus.userComment.id">
+                      <div class="col-12">
+                        <div class="bg-light rounded-start-top-0 p-3 rounded">
+                          <div class="d-flex justify-content-between">
+                            <h6 class="mb-1"><a
+                              routerLink="/{{commentOfStatus.userComment.id}}"> {{commentOfStatus.userComment.fullname}} </a>
+                            </h6>
+                            <small class="ms-2">{{commentOfStatus.createAt | date: "hh:mm dd/MM/yyyy"}}</small>
+                          </div>
+                          <p class="small mb-0 comment-content">{{commentOfStatus.content}}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Comment react -->
+                    <ul class="nav nav-divider py-2 small">
+                      <li class="nav-item" *ngIf="!commentOfStatus.isLikeComment">
+                        <a class="nav-link" (click)="likeComment(commentOfStatus.id, i, 1)"> Thích ({{listNumberOfParentComment[i]}})</a>
+                      </li>
+                      <li class="nav-item" *ngIf="commentOfStatus.isLikeComment">
+                        <a class="nav-link" style="color: red" (click)="likeComment(commentOfStatus.id, i, 1)"> Thích ({{listNumberOfParentComment[i]}})</a>
+                      </li>
+                      <li class="nav-item"
+                          *ngIf="currentUserId == status.owner.id || (currentUserId != status.owner.id && relationship != null && relationship.status == 2)">
+                        <a class="nav-link" (click)="openChildCommentInput(i)">Trả lời</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- Comment item nested START -->
+                <ul class="comment-item-nested list-unstyled"
+                    *ngFor="let commentOfComment of listCommentOfComment, index as j">
+                  <!-- Comment item START -->
+                  <li class="comment-item" *ngIf="commentOfStatus.id == commentOfComment.comment.id">
+                    <div class="d-flex">
+                      <!-- Avatar -->
+                      <div class="avatar avatar-xs">
+                        <a routerLink="/{{commentOfComment.userComment.id}}"><img class="avatar-img rounded-circle"
+                                                                                  src="{{commentOfComment.userComment.avatar}}"
+                                                                                  alt=""></a>
+                      </div>
+                      <!-- Comment by -->
+                      <div class="ms-2">
+                        <div class="row" *ngIf="commentOfComment.userComment.id != currentUserId">
+                          <div class="col-12">
+                            <div class="bg-light p-3 rounded">
+                              <div class="d-flex justify-content-between">
+                                <h6 class="mb-1"><a
+                                  routerLink="/{{commentOfComment.userComment.id}}"> {{commentOfComment.userComment.fullname}} </a>
+                                </h6>
+                                <small class="ms-2">{{commentOfComment.createAt | date: "hh:mm dd/MM/yyyy"}}</small>
+                              </div>
+                              <p class="small mb-0 comment-content">{{commentOfComment.content}}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" *ngIf="commentOfComment.userComment.id == currentUserId">
+                          <div class="col-11">
+                            <div class="bg-light p-3 rounded">
+                              <div class="d-flex justify-content-between">
+                                <h6 class="mb-1"><a
+                                  routerLink="/{{commentOfComment.userComment.id}}"> {{commentOfComment.userComment.fullname}} </a>
+                                </h6>
+                                <small class="ms-2">{{commentOfComment.createAt | date: "hh:mm dd/MM/yyyy"}}</small>
+                              </div>
+                              <div>
+                                <p class="small mb-0 child-comment-content">{{commentOfComment.content}}</p>
+                              </div>
+                              <div class="child-comment-update">
+                                <app-comment-update [id]="commentOfComment.id"></app-comment-update>
+                                <small><a class="ms-2" (click)="childCancel(j)">Hủy</a></small>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-1">
+                            <a href="#" class="text-secondary btn btn-secondary-soft-hover py-1 px-2 action"
+                               id="childCommentAction"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="bi bi-three-dots"></i>
+                            </a>
+                            <!-- Card feed action dropdown menu -->
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="childCommentAction">
+                              <li><a class="dropdown-item" (click)="childUpdate(j)"> <i
+                                class="bi bi-pencil-fill pe-1"></i>
+                                Chỉnh sửa</a>
+                              </li>
+                              <li>
+                                <hr class="dropdown-divider">
+                              </li>
+                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalDeleteStatus"
+                                     (click)="getCommentId(commentOfComment.id)"> <i class="fa-solid fa-trash"></i> Xóa</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <!-- Comment react -->
+                        <ul class="nav nav-divider py-2 small">
+                          <li class="nav-item" *ngIf="!commentOfComment.isLike">
+                            <a class="nav-link" (click)="likeComment(commentOfComment.id, j, 2)"> Thích ({{listNumberOfChildComment[j]}})</a>
+                          </li>
+                          <li class="nav-item" *ngIf="commentOfComment.isLike">
+                            <a class="nav-link" style="color: red" (click)="likeComment(commentOfComment.id, j, 2)"> Thích ({{listNumberOfChildComment[j]}})</a>
+                          </li>
+                          <li class="nav-item"
+                              *ngIf="currentUserId == status.owner.id || (currentUserId != status.owner.id && relationship != null && relationship.status == 2)">
+                            <a class="nav-link" (click)="openChildCommentInput(i)"> Trả lời</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                  <!-- Comment item END -->
+                </ul>
+                <div class="comment-item-nested list-unstyled child-comment-input"
+                     *ngIf="currentUserId == status.owner.id || (currentUserId != status.owner.id && relationship != null && relationship.status == 2)">
+                  <app-comment-create [statusId]="statusId" [commentId]="commentOfStatus.id"></app-comment-create>
+                </div>
+                <!-- Comment item nested END -->
+              </li>
+              <!-- Comment item END -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Container END -->
+</main>
+
+<!-- Modal delete START -->
+<div class="modal fade" id="modalDeleteStatus" tabindex="-1" aria-labelledby="modalLabelUnfriend" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <!-- Modal feed header START -->
+      <div class="modal-header">
+        <h3 id="modalLabelUnfriend" style="text-align: center">Bạn muốn xóa bình luận</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Bạn có chắc chắn muốn xóa bình luận không?</h6>
+      </div>
+      <!-- Button -->
+      <div class="modal-footer">
+        <div class="col-lg-8 text-sm-end">
+          <button type="button" class="btn btn-danger-soft me-2" (click)="delete(commentId)" data-bs-dismiss="modal">
+            Xác nhận
+          </button>
+          <button type="button" class="btn btn-success-soft" data-bs-dismiss="modal" aria-label="Close">Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

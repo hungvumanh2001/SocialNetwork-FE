@@ -1,0 +1,11 @@
+<div class="d-flex mb-3">
+  <!-- Avatar -->
+
+  <div class="avatar avatar-xs me-2">
+    <a href="#!"> <img class="avatar-img rounded-circle" src="{{avatarCurrentUser}}" alt=""> </a>
+  </div>
+  <form class="position-relative w-100" [formGroup]="commentForm" (keydown.enter)="submit()">
+    <textarea data-autoresize class="form-control pe-4 bg-light"
+              rows="1" placeholder="Thêm một bình luận..." formControlName="content" id="commentInp"></textarea>
+  </form>
+</div>

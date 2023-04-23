@@ -1,0 +1,162 @@
+
+<main>
+  <!-- Container START -->
+  <div class="container">
+    <div class="row">
+
+      <!-- Sidenav START -->
+      <div class="col-lg-3">
+
+        <!-- Advanced filter responsive toggler START -->
+        <!-- Divider -->
+        <div class="d-flex align-items-center mb-4 d-lg-none">
+          <button class="border-0 bg-transparent" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <i class="btn btn-primary fw-bold fa-solid fa-sliders"></i>
+            <span class="h6 mb-0 fw-bold d-lg-none ms-2">Cài đặt</span>
+          </button>
+        </div>
+        <!-- Advanced filter responsive toggler END -->
+
+        <nav class="navbar navbar-light navbar-expand-lg mx-0">
+          <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
+            <!-- Offcanvas header -->
+            <div class="offcanvas-header">
+              <button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas"
+                      aria-label="Close"></button>
+            </div>
+
+            <!-- Offcanvas body -->
+            <div class="offcanvas-body p-0">
+              <!-- Card START -->
+              <div class="card w-100">
+                <!-- Card body START -->
+                <div class="card-body">
+
+                  <!-- Side Nav START -->
+                  <ul class="nav nav-tabs nav-pills nav-pills-soft flex-column fw-bold gap-2 border-0">
+                    <li class="nav-item" data-bs-dismiss="offcanvas">
+                      <a class="nav-link d-flex mb-0 active" data-bs-toggle="tab" routerLink="/setting-user"> <img
+                        class="me-2 h-20px fa-fw" src="assets/assets/images/icon/person-outline-filled.svg" alt=""><span>Tài khoản </span></a>
+                    </li>
+                    <li class="nav-item" data-bs-dismiss="offcanvas">
+                      <a class="nav-link d-flex mb-0" data-bs-toggle="tab" routerLink="/setting-password"> <i
+                        class="me-2 h-20px fa-fw fa-solid fa-key"></i><span>Đổi mật khẩu </span></a>
+                    </li>
+                  </ul>
+                  <!-- Side Nav END -->
+
+                </div>
+                <!-- Card body END -->
+                <!-- Card footer -->
+                <div class="card-footer text-center py-2" >
+                  <a class="btn btn-link text-secondary btn-sm" routerLink="/{{id}}">Quay lại trang cá nhân </a>
+                </div>
+              </div>
+              <!-- Card END -->
+            </div>
+            <!-- Offcanvas body -->
+          </div>
+        </nav>
+      </div>
+      <!-- Sidenav END -->
+
+      <!-- Main content START -->
+      <div class="col-lg-6 vstack gap-4">
+        <!-- Setting Tab content START -->
+        <div class="tab-content py-0 mb-0">
+
+          <!-- Account setting tab START -->
+          <div class="tab-pane show active fade" id="nav-setting-tab-1">
+            <!-- Account settings START -->
+            <div class="card mb-4" style="padding-left: 4%;padding-right: 4%">
+
+              <!-- Title START -->
+              <div class="card-header border-0 pb-0">
+                <h1 class="h5 card-title">Thông tin tài khoản</h1>
+              </div>
+              <!-- Card header START -->
+              <!-- Card body START -->
+              <div class="card-body">
+                <!-- Form settings START -->
+                <form class="row g-3" [formGroup]="userForm"  (ngSubmit)="updateProfile(id)" >
+                  <!-- Additional name -->
+                  <div class="col-sm-6 ">
+                    <label class="form-label">Tên đầy đủ</label>
+                    <input type="text" class="form-control" formControlName="fullname">
+                    <div
+                      *ngIf="!fullname?.valid && (fullname?.dirty)" style="color: red">
+                      <div [hidden]="!fullname?.errors?.['required']"> Không được để trống</div>
+                      <div [hidden]="!fullname?.errors?.['pattern']">  Không chứa kí tự đặc biệt</div>
+                    </div>
+                  </div>
+                  <!-- Phone -->
+                  <div class="col-sm-6">
+                    <label class="form-label">Số điện thoại</label>
+                    <input type="text" class="form-control" formControlName="phone">
+                    <div
+                      *ngIf="!phone?.valid && (phone?.dirty)" style="color: red">
+                      <div [hidden]="!phone?.errors?.['required']">Số điện thoại không được để trống</div>
+                      <div [hidden]="!phone?.errors?.['pattern']">Số điện thoại không đúng định dạng</div>
+                    </div>
+                  </div>
+                  <!-- address -->
+                  <div class="col-sm-6">
+                    <label class="form-label">Địa chỉ</label>
+                    <input type="text" class="form-control" formControlName="address">
+                    <div
+                      *ngIf="!address?.valid && (address?.dirty)" style="color: red">
+                      <div [hidden]="!address?.errors?.['pattern']">Không chứa kí tự đặc biệt</div>
+                    </div>
+                  </div>
+                  <!-- Birthday -->
+                  <div class="col-lg-6">
+                    <label class="form-label">Ngày sinh </label>
+                    <input type="date" class="form-control flatpickr" id="datePickerId" formControlName="birthday">
+                  </div>
+                  <!-- Email -->
+                  <div class="col-sm-6">
+                    <label class="form-label">Email</label>
+                    <input type="text" class="form-control" placeholder="" value="sam@webestica.com"
+                           formControlName="email">
+                    <div
+                      *ngIf="!email?.valid && (email?.dirty)" style="color: red">
+                      <div [hidden]="!email?.errors?.['required']">Email không được để trống</div>
+                      <div [hidden]="!email?.errors?.['email']">Email phải đúng định dạng</div>
+                    </div>
+                  </div>
+                  <!-- hobby -->
+                  <div class="col-sm-6">
+                    <label class="form-label">Sở thích</label>
+                    <input type="text" class="form-control" formControlName="hobby">
+                    <div
+                      *ngIf="!hobby?.valid && (hobby?.dirty)" style="color: red">
+                      <div [hidden]="!hobby?.errors?.['pattern']">Không chứa kí tự đặc biệt</div>
+                    </div>
+                  </div>
+                  <!-- Button  -->
+                  <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-primary mb-0" [disabled]="!userForm.valid">Thay đổi
+                    </button>
+                  </div>
+                </form>
+                <!-- Settings END -->
+              </div>
+              <!-- Card body END -->
+            </div>
+            <!-- Account settings END -->
+
+            <!-- Settings END -->
+          </div>
+        </div>
+        <!-- Card END -->
+      </div>
+      <!-- Account setting tab END -->
+
+    </div>
+    <!-- Setting Tab content END -->
+  </div>
+
+  <!-- Container END -->
+
+</main>
